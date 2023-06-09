@@ -4,15 +4,17 @@
  */
 package lab8p2_fernandopadilla;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Wendy
  */
 public class MainFrame extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Login
-     */
+    
+    ArrayList<Usuario> usuarios = new ArrayList();
+    
     public MainFrame() {
         initComponents();
     }
@@ -40,8 +42,8 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        tf_usuarioLogin = new javax.swing.JTextField();
+        tf_passwordLogin = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -143,12 +145,17 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Contraseña");
 
-        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
+        tf_usuarioLogin.setForeground(new java.awt.Color(0, 0, 0));
 
-        jPasswordField1.setForeground(new java.awt.Color(0, 0, 0));
+        tf_passwordLogin.setForeground(new java.awt.Color(0, 0, 0));
 
         jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Iniciar Sesion");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("No tiene un usuario?");
@@ -172,8 +179,8 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addGap(66, 66, 66)
                                 .addComponent(jLabel1))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField1)
-                                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(tf_usuarioLogin)
+                                .addComponent(tf_passwordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(138, 138, 138)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -188,14 +195,14 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tf_usuarioLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(tf_passwordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
@@ -217,8 +224,33 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jb_registroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_registroMouseClicked
-        
+        usuarios.add(new Usuario(tf_usuario.getText(), tf_password.getText(), tf_nombre.getText(), Integer.parseInt(tf_edad.getText()) ));
+        if (tf_usuario.getText().isEmpty() && tf_password.getText().isEmpty() && tf_nombre.getText().isEmpty() && tf_edad.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(jd_registroU, "Llene los campos vacios");
+        }else{
+            JOptionPane.showMessageDialog(jd_registroU, "Usuario registrado exitosamente");
+            jd_registroU.dispose();
+        }
     }//GEN-LAST:event_jb_registroMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        String usuario = "";
+        boolean login = false;
+        for (Usuario t : usuarios) {
+            if (tf_usuarioLogin.getText().equals(t.getUsuario()) && tf_passwordLogin.getText().equals(t.getPassword())) {
+                login = true;
+                usuario = tf_usuarioLogin.getText();
+                break;
+            }
+        }
+        if (login) {
+            JOptionPane.showMessageDialog(this, "Bienvenido " + usuario);
+        }else if(tf_usuarioLogin.getText().equals("enuila") && tf_passwordLogin.getText().equals("wynaut1325")){
+            JOptionPane.showMessageDialog(this, "Bienvenido admin");
+        }else{
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña no valida");
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -268,13 +300,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jb_registro;
     private javax.swing.JDialog jd_registroU;
     private javax.swing.JTextField tf_edad;
     private javax.swing.JTextField tf_nombre;
     private javax.swing.JPasswordField tf_password;
+    private javax.swing.JPasswordField tf_passwordLogin;
     private javax.swing.JTextField tf_usuario;
+    private javax.swing.JTextField tf_usuarioLogin;
     // End of variables declaration//GEN-END:variables
 }

@@ -22,6 +22,15 @@ public class Usuario {
         this.lista_seguidos = lista_seguidos;
     }
 
+    public Usuario(String usuario, String password, String nombre, int edad) {
+        this.usuario = usuario;
+        this.password = password;
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+    
+    
+
     public String getUsuario() {
         return usuario;
     }
